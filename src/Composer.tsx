@@ -42,6 +42,7 @@ export interface ComposerProps {
   multiline?: boolean
   disableComposer?: boolean
   onTextChanged?(text: string): void
+  onSelectionChanged?(pos: number): void
   onInputSizeChanged?(contentSize: { width: number; height: number }): void
 }
 
@@ -58,7 +59,7 @@ export default class Composer extends React.Component<ComposerProps> {
     textInputAutoFocus: false,
     keyboardAppearance: 'default',
     onTextChanged: () => {},
-      onSelectionChange: (pos) => {},
+    onSelectionChange: () => {},
     onInputSizeChanged: () => {},
   }
 
@@ -69,7 +70,7 @@ export default class Composer extends React.Component<ComposerProps> {
     placeholderTextColor: PropTypes.string,
     textInputProps: PropTypes.object,
     onTextChanged: PropTypes.func,
-    onSelectionChange: PropTypes.func,
+    onSelectionChanged: PropTypes.func,
     onInputSizeChanged: PropTypes.func,
     multiline: PropTypes.bool,
     disableComposer: PropTypes.bool,
@@ -102,10 +103,11 @@ export default class Composer extends React.Component<ComposerProps> {
   onChangeText = (text: string) => {
     this.props.onTextChanged!(text)
   }
-  
-  onSelectionChange = (e) => {
-      this.props.onSelectionChange(e.nativeEvent.selection.end);
-  };
+
+  onSelectionChange = (e: any) => {
+    const pos = e.nativeEvent.selection.end
+    this.props.onSelectionChanged!(pos)
+  }
 
   render() {
     return (

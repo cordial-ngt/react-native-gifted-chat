@@ -195,7 +195,7 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   onPressActionButton?(): void
   /* Callback when the input text changes */
   onInputTextChanged?(text: string): void
-  onSelectionChange?(pos: integer): void
+  onSelectionChanged?(pos: number): void
   /* Custom parse patterns for react-native-parsed-text used to linking message content (like URLs and phone numbers) */
   parsePatterns?(linkStyle: TextStyle): any
   onQuickReply?(replies: Reply[]): void
@@ -285,7 +285,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       default: 'never',
     }),
     onInputTextChanged: null,
-    onSelectionChange: null,
+    onSelectionChanged: null,
     maxInputLength: null,
     forceGetKeyboardHeight: false,
     inverted: true,
@@ -349,7 +349,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     listViewProps: PropTypes.object,
     keyboardShouldPersistTaps: PropTypes.oneOf(['always', 'never', 'handled']),
     onInputTextChanged: PropTypes.func,
-    onSelectionChange: PropTypes.func,
+    onSelectionChanged: PropTypes.func,
     maxInputLength: PropTypes.number,
     forceGetKeyboardHeight: PropTypes.bool,
     inverted: PropTypes.bool,
@@ -787,12 +787,12 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setState({ text })
     }
   }
-  
-  onSelectionChange = (pos) => {
-      if (this.props.onSelectionChange) {
-        this.props.onSelectionChange(pos);
-      }
-    };
+
+  onSelectionChanged = (pos: number) => {
+    if (this.props.onSelectionChanged) {
+      this.props.onSelectionChanged(pos)
+    }
+  }
 
   notifyInputTextReset() {
     if (this.props.onInputTextChanged) {
@@ -851,7 +851,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       onSend: this.onSend,
       onInputSizeChanged: this.onInputSizeChanged,
       onTextChanged: this.onInputTextChanged,
-      onSelectionChange: this.onSelectionChange,
+      onSelectionChanged: this.onSelectionChanged,
       textInputProps: {
         ...this.props.textInputProps,
         ref: (textInput: any) => (this.textInput = textInput),
